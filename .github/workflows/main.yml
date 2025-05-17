@@ -37,6 +37,23 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --optimize-autoloader --no-dev --no-interaction
 
+      - name: Boot Laravel application
+        run: |
+          php -r "file_exists('.env') || copy('.env.production', '.env');"
+          php artisan key:generate
+          php artisan --version
+
+      - name: Boot Database application
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: ql206.infinityfree.com
+          DB_DATABASE: if0_39004701_tobearapi
+          DB_PORT: 3306
+          DB_USER: if0_39004701
+          DB_PASSWORD: Fr4nc3sc0I982
+        run: |
+          php artisan migrate
+
       - name: Sync files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
