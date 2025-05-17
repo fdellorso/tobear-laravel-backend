@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - main
+
 name: Deploy website on push
 jobs:
   web-deploy:
@@ -42,4 +43,4 @@ jobs:
           server: ftpupload.net
           username: ${{ secrets.ftp_username }}
           password: ${{ secrets.ftp_password }}
-          server-dir: /
+          server-dir: /htdocs
