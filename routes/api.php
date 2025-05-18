@@ -19,3 +19,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
         'destroy'
     ]);
 });
+
+require __DIR__ . '/auth.php';

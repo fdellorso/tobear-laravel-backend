@@ -3,14 +3,18 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExecuteArtisanCommandController;
 
-Route::get('/', function () {
-    return ['Laravel' => app()->version()];
-});
+Route::get('/{any}', function () {
+    return file_get_contents(public_path('app/index.html'));
+})->where('any', '^(?!api).*$');
 
-Route::get('/phpmyinfo', function () {
+Route::get('/laravelversion', function () {
+    return ['Laravel' => app()->version()];
+})->name('laravelversion');
+
+Route::get('/serverphpinfo', function () {
     phpinfo();
-})->name('phpmyinfo');
+})->name('serverphpinfo');
 
 Route::get('/artisan/{name_of_command}', ExecuteArtisanCommandController::class);
 
-require __DIR__ . '/auth.php';
+// require __DIR__ . '/auth.php';
