@@ -13,6 +13,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         return $request->user();
     });
 
+    Route::post('/myimages/{image}/delete', [ImageController::class, 'destroy']);
+
     Route::apiResource('/myimages', ImageController::class)->only([
         'index',
         'store',

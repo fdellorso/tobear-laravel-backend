@@ -47,15 +47,15 @@ class ImageController extends Controller
      */
     public function destroy(Request $request, Image $image)
     {
-        // $image->delete();
+        $image->delete();
 
-        // return response(null, 204);
+        return response(null, 204);
 
-        if ($request->method() === 'POST' && $request->input('_method') === 'DELETE') {
-            $image->delete();
-            return response(null, 204);
-        }
+        // if ($request->method() === 'POST' && $request->input('_method') === 'DELETE') {
+        //     $image->delete();
+        //     return response(null, 204);
+        // }
 
-        return response()->json(['error' => 'Invalid method'], 405);
+        // return response()->json(['error' => 'Invalid method'], 405);
     }
 }
