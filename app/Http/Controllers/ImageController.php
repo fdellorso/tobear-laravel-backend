@@ -32,7 +32,7 @@ class ImageController extends Controller
             'label' => ['nullable', 'string', 'max:255'],
         ]);
 
-        $path = $request->file('image')->store('images', "public");
+        $path = $request->file('image')->store('images', "public_uploads");
 
         $image = Image::create([
             'path' => $path,
