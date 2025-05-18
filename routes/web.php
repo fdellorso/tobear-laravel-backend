@@ -14,10 +14,10 @@ Route::get('/serverphpinfo', function () {
 
 Route::get('/artisan/{name_of_command}', ExecuteArtisanCommandController::class);
 
-Route::get('/userfiles/{filename}', [FileController::class, 'show']);
+Route::get('/assets/{filename}', [FileController::class, 'show']);
 
 Route::get('/{any}', function () {
     return file_get_contents(public_path('app/index.html'));
-})->where('any', '^(?!api|assets|css|js|userfiles).*$');
+})->where('any', '^(?!api|assets|css|js).*$');
 
 // require __DIR__ . '/auth.php';

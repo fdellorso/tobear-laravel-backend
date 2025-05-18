@@ -35,7 +35,7 @@ class ImageController extends Controller
         // $path = $request->file('image')->store('images', "public_uploads");
 
         $filename = time() . '.' . $request->file('image')->getClientOriginalExtension();
-        $destination = public_path('userfiles');
+        $destination = public_path('assets');
 
         if (!file_exists($destination)) {
             mkdir($destination, 0755, true);
@@ -44,7 +44,7 @@ class ImageController extends Controller
         $request->file('image')->move($destination, $filename);
 
         // Questo è il path relativo che puoi salvare nel DB
-        $path = 'userfiles/' . $filename;
+        $path = 'assets/' . $filename;
 
         $image = Image::create([
             'path' => $path,
