@@ -32,7 +32,19 @@ class ImageController extends Controller
             'label' => ['nullable', 'string', 'max:255'],
         ]);
 
-        $path = $request->file('image')->store('images', "public_uploads");
+        // $path = $request->file('image')->store('images', "public_uploads");
+
+        $filename = time() . '.' . $request->file('image')->getClientOriginalExtension();
+        $destination = public_path('userfiles');
+
+        if (!file_exists($destination)) {
+            mkdir($destination, 0755, true);
+        }
+
+        $request->file('image')->move($destination, $filename);
+
+        // Questo è il path relativo che puoi salvare nel DB
+        $path = 'userfiles/' . $filename;
 
         $image = Image::create([
             'path' => $path,
@@ -47,15 +59,16 @@ class ImageController extends Controller
      */
     public function destroy(Request $request, Image $image)
     {
+        // Costruisci il percorso completo del file
+        $filePath = $image->path; // Esempio: 'images/1684499383.jpg'
+
+        // Elimina il file se esiste
+        if (Storage::disk('public_uploads')->exists($filePath)) {
+            Storage::disk('public_uploads')->delete($filePath);
+        }
+
         $image->delete();
 
         return response(null, 204);
-
-        // if ($request->method() === 'POST' && $request->input('_method') === 'DELETE') {
-        //     $image->delete();
-        //     return response(null, 204);
-        // }
-
-        // return response()->json(['error' => 'Invalid method'], 405);
     }
 }
