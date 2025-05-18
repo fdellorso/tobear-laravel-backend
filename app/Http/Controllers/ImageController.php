@@ -16,7 +16,7 @@ class ImageController extends Controller
         return Image::latest()->get()->map(function ($image) {
             return [
                 'id' => $image->id,
-                'url' => url(Storage::url($image->path)),
+                'url' => url(Storage::disk("public_uploads")->url($image->path)),
                 'label' => $image->label
             ];
         });
