@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\V1\AlbumController;
 use App\Http\Controllers\ImageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +21,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
         'store',
         'destroy'
     ]);
+});
+
+Route::prefix('v1')->group(function () {
+    Route::apiResource('album', AlbumController::class);
 });
 
 require __DIR__ . '/auth.php';
