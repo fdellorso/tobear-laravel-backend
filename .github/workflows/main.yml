@@ -57,7 +57,7 @@ jobs:
           sed -i "s|MAIL_HOST=.*|MAIL_HOST=${{ secrets.MAIL_HOST_X10 }}|" .env
           sed -i "s|MAIL_USERNAME=.*|MAIL_USERNAME=${{ secrets.MAIL_USERNAME_X10 }}|" .env
           sed -i "s|MAIL_PASSWORD=.*|MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD_X10 }}|" .env
-          sed -i "s|MAIL_FROM_ADDRESS=.*|MAIL_FROM_ADDRESS=${{ secrets.MAIL_FROM_ADDRESS_X10 }}|" .env
+          sed -i "s|MAIL_FROM_ADDRESS=.*|MAIL_FROM_ADDRESS=\"${{ secrets.MAIL_FROM_ADDRESS_X10 }}\"|" .env
 
       - name: Sync files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5

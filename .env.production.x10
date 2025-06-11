@@ -54,15 +54,11 @@ REDIS_PORT=6379
 MAIL_MAILER=smtp
 # MAIL_SCHEME=null
 MAIL_HOST=placeholder
-# mail.tobear.x10.mx
 MAIL_PORT=587
 MAIL_ENCRYPTION=tls
 MAIL_USERNAME=placeholder
-# fdellorso@tobear.x10.mx
 MAIL_PASSWORD=placeholder
-# Fr1sedd@
 MAIL_FROM_ADDRESS=placeholder
-# "fdellorso@tobear.x10.mx"
 MAIL_FROM_NAME="${APP_NAME}"
 
 AWS_ACCESS_KEY_ID=
