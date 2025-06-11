@@ -1,9 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\ExecuteArtisanCommandController;
 // use App\Http\Controllers\FileController;
 // use Illuminate\Support\Facades\Mail;
+
+Route::get('/api/verify-email/{id}/{hash}', VerifyEmailController::class)
+    ->middleware(['web', 'auth', 'signed', 'throttle:6,1'])
+    ->name('verification.verify');
 
 Route::get('/laravelversion', function () {
     return ['Laravel' => app()->version()];
