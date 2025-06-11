@@ -17,7 +17,7 @@ Route::get('/artisan/{name_of_command}', ExecuteArtisanCommandController::class)
 
 // Route::get('/assets/{filename}', [FileController::class, 'show']);
 
-Route::get('test-email', function () {
+Route::get('/test-email', function () {
     try {
         Mail::raw('Test SMTP x10', function ($msg) {
             $msg->to('fdellorso@ymail.com')->subject('Prova SMTP');
