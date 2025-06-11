@@ -43,19 +43,21 @@ jobs:
       #     php artisan key:generate
 
       - name: Copy .env.production to .env
-        run: cp .env.production .env
+        run: cp .env.production.x10 .env
 
       - name: Inject sensitive DB credentials into .env
         run: |
-          sed -i "s|DB_HOST=.*|DB_HOST=${{ secrets.DB_HOST }}|" .env
-          sed -i "s|DB_DATABASE=.*|DB_DATABASE=${{ secrets.DB_DATABASE }}|" .env
-          sed -i "s|DB_USERNAME=.*|DB_USERNAME=${{ secrets.DB_USERNAME }}|" .env
-          sed -i "s|DB_PASSWORD=.*|DB_PASSWORD=${{ secrets.DB_PASSWORD }}|" .env
+          sed -i "s|DB_HOST=.*|DB_HOST=${{ secrets.DB_HOST_X10 }}|" .env
+          sed -i "s|DB_DATABASE=.*|DB_DATABASE=${{ secrets.DB_DATABASE_X10 }}|" .env
+          sed -i "s|DB_USERNAME=.*|DB_USERNAME=${{ secrets.DB_USERNAME_X10 }}|" .env
+          sed -i "s|DB_PASSWORD=.*|DB_PASSWORD=${{ secrets.DB_PASSWORD_X10 }}|" .env
 
       - name: Sync files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ftpupload.net
-          username: ${{ secrets.ftp_username }}
-          password: ${{ secrets.ftp_password }}
-          server-dir: htdocs/
+          # server: ftpupload.net
+          server: ${{ secrets.ftp_server_x10 }}
+          username: ${{ secrets.ftp_username_x10 }}
+          password: ${{ secrets.ftp_password_x10 }}
+          # server-dir: htdocs/
+          server-dir: ${{ secrets.ftp_folder_x10 }}
