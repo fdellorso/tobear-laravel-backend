@@ -4,28 +4,20 @@ namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreImageRequest;
+use App\Http\Resources\V1\ImageResource;
 use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use App\Http\Resources\V1\ImageResource;
 
 class ImageController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // return Image::latest()->get()->map(function ($image) {
-        //     return [
-        //         'id' => $image->id,
-        //         'url' => url(Storage::disk("public_uploads")->url($image->path)),
-        //         'label' => $image->label
-        //     ];
-        // });
-
-        return ImageResource::collection(Image::paginate());
+        return ImageResource::collection(Image::where('user_id', $request->user()->id)->paginate());
     }
 
     /**
@@ -38,16 +30,16 @@ class ImageController extends Controller
         unset($all['image']);
         $data = [
             'label' => $all['label'] ?? null,
-            // 'user_id' => $request->user()->id,
+            'user_id' => $request->user()->id,
         ];
 
-        $dir = Str::random() . '/';
+        $dir = Str::random().'/';
         $absolutePath = Storage::disk('public_uploads')->path($dir);
         Storage::disk('public_uploads')->makeDirectory($dir);
 
         $dataName = $image->getClientOriginalName();
         $image->move($absolutePath, $dataName);
-        $data['path'] = $dir . $dataName;
+        $data['path'] = $dir.$dataName;
 
         $imageStored = Image::create($data);
 
@@ -59,6 +51,8 @@ class ImageController extends Controller
      */
     public function destroy(Request $request, Image $image)
     {
+        $this->authorizeImage($request, $image);
+
         $filePath = $image->path;
         if (Storage::disk('public_uploads')->exists($filePath)) {
             Storage::disk('public_uploads')->delete($filePath);
@@ -74,5 +68,12 @@ class ImageController extends Controller
         $image->delete();
 
         return response(null, 204);
+    }
+
+    protected function authorizeImage(Request $request, Image $image): void
+    {
+        if ($request->user()->id != $image->user_id) {
+            abort(403, 'Unauthorized');
+        }
     }
 }

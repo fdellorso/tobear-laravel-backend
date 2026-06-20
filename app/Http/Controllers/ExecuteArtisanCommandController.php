@@ -7,15 +7,28 @@ use Illuminate\Support\Facades\Artisan;
 
 class ExecuteArtisanCommandController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
+    private const WHITELIST = [
+        'route:list',
+        'cache:clear',
+        'config:clear',
+        'migrate:status',
+        'queue:failed',
+    ];
+
     public function __invoke(Request $request, $command)
     {
-        $params = $request->all();
-        Artisan::call($command, $params);
-        $output = Artisan::output();
+        $token = env('ARTISAN_DEBUG_TOKEN');
 
-        return $output;
+        if ($token === null || $request->query('token') !== $token) {
+            abort(404);
+        }
+
+        if (! in_array($command, self::WHITELIST, true)) {
+            abort(404);
+        }
+
+        Artisan::call($command);
+
+        return response(Artisan::output());
     }
 }

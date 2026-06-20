@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\V1\TaskResource;
 use App\Models\Task;
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreTaskRequest;
-use App\Http\Requests\UpdateTaskRequest;
 
 class TaskController extends Controller
 {
@@ -36,6 +36,7 @@ class TaskController extends Controller
         ];
 
         $task = Task::create($data);
+
         return new TaskResource($task);
     }
 
@@ -53,9 +54,9 @@ class TaskController extends Controller
         $userTaskIds = $user->tasks()->pluck('id')->toArray();
         $invalidIds = array_diff($taskIds, $userTaskIds);
 
-        if (!empty($invalidIds)) {
+        if (! empty($invalidIds)) {
             return response()->json([
-                'message' => 'Alcune task non appartengono all’utente.'
+                'message' => 'Alcune task non appartengono all’utente.',
             ], 403);
         }
 
@@ -89,6 +90,7 @@ class TaskController extends Controller
         }
 
         $task->update($request->validated());
+
         return new TaskResource($task);
     }
 
@@ -99,6 +101,7 @@ class TaskController extends Controller
     {
         $this->authorizeTask($request, $task);
         $task->delete();
+
         return response()->json(['message' => 'Task eliminato.'], 200);
     }
 

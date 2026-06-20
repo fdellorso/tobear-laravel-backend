@@ -25,7 +25,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::apiResource('/myimages', ImageController::class)->only([
             'index',
             'store',
-            'destroy'
+            'destroy',
         ]);
 
         Route::apiResource('album', AlbumController::class);
@@ -38,4 +38,4 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     });
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

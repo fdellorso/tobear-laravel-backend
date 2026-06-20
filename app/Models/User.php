@@ -11,11 +11,16 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasApiTokens, HasFactory, Notifiable;
 
     public function tasks()
     {
         return $this->hasMany(Task::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class);
     }
 
     /**

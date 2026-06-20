@@ -5,8 +5,8 @@ namespace App\Http\Controllers\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAlbumRequest;
 use App\Http\Requests\UpdateAlbumRequest;
-use App\Models\Album;
 use App\Http\Resources\V1\AlbumResource;
+use App\Models\Album;
 use Illuminate\Http\Request;
 
 class AlbumController extends Controller
@@ -36,7 +36,7 @@ class AlbumController extends Controller
      */
     public function show(Request $request, Album $album)
     {
-        if (!$request->user()->id != $album->user_id) {
+        if ($request->user()->id != $album->user_id) {
             abort(403, 'Unauthorized');
         }
 
@@ -48,7 +48,7 @@ class AlbumController extends Controller
      */
     public function update(UpdateAlbumRequest $request, Album $album)
     {
-        if (!$request->user()->id != $album->user_id) {
+        if ($request->user()->id != $album->user_id) {
             abort(403, 'Unauthorized');
         }
 
@@ -62,7 +62,7 @@ class AlbumController extends Controller
      */
     public function destroy(Request $request, Album $album)
     {
-        if (!$request->user()->id != $album->user_id) {
+        if ($request->user()->id != $album->user_id) {
             abort(403, 'Unauthorized');
         }
 

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "autoshare": false,
+  "autoupdate": true,
+  "watcher": {
+    "ignore": ["vendor/**", "node_modules/**", "storage/**", "bootstrap/cache/**", ".git/**"]
+  },
+  "permission": {
+    "edit": {
+      ".opencode/skills/*": "deny",
+      ".opencode/commands/*": "deny",
+      "opencode.json": "deny",
+      ".env*": "deny"
+    }
+  },
+  "lsp": {
+    "php": {
+      "command": ["npx", "intelephense", "--stdio"],
+      "extensions": [".php"]
+    }
+  }
+}

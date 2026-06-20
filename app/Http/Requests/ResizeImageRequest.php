@@ -31,7 +31,7 @@ class ResizeImageRequest extends FormRequest
 
         $image = $this->all()['image'] ?? false;
 
-        if (!isset($rules['image']) || !is_array($rules['image'])) {
+        if (! isset($rules['image']) || ! is_array($rules['image'])) {
             $rules['image'] = [];
         }
 

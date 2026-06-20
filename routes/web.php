@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\ExecuteArtisanCommandController;
+use Illuminate\Support\Facades\Route;
+
 // use App\Http\Controllers\FileController;
 // use Illuminate\Support\Facades\Mail;
 

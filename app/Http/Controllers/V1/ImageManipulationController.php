@@ -4,15 +4,15 @@ namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ResizeImageRequest;
-use App\Models\ImageManipulation;
+use App\Http\Resources\V1\ImageManipulationResource;
 use App\Models\Album;
+use App\Models\ImageManipulation;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Laravel\Facades\Image;
-use App\Http\Resources\V1\ImageManipulationResource;
-use Illuminate\Support\Facades\Storage;
 
 class ImageManipulationController extends Controller
 {
@@ -68,7 +68,7 @@ class ImageManipulationController extends Controller
         // $absolutePath = public_path($dir);
         // File::makeDirectory($absolutePath);
 
-        $dir = Str::random() . '/';
+        $dir = Str::random().'/';
         $absolutePath = Storage::disk('public_uploads')->path($dir);
         Storage::disk('public_uploads')->makeDirectory($dir);
 
@@ -76,27 +76,27 @@ class ImageManipulationController extends Controller
             $data['name'] = $image->getClientOriginalName();
             $filename = pathinfo($data['name'], PATHINFO_FILENAME);
             $extension = $image->getClientOriginalExtension();
-            $originalPath = $absolutePath . $data['name'];
+            $originalPath = $absolutePath.$data['name'];
 
             $image->move($absolutePath, $data['name']);
         } else {
             $data['name'] = pathinfo($image, PATHINFO_BASENAME);
             $filename = pathinfo($image, PATHINFO_FILENAME);
             $extension = pathinfo($image, PATHINFO_EXTENSION);
-            $originalPath = $absolutePath . $data['name'];
+            $originalPath = $absolutePath.$data['name'];
 
             copy($image, $originalPath);
         }
-        $data['path'] = $dir . $data['name'];
+        $data['path'] = $dir.$data['name'];
 
         $w = $all['w'];
         $h = $all['h'] ?? false;
 
-        list($width, $height, $image) = $this->getImageWidthAndHeight($w, $h, $originalPath);
+        [$width, $height, $image] = $this->getImageWidthAndHeight($w, $h, $originalPath);
 
-        $resizedFilename = $filename . '-resized.' . $extension;
-        $image->resize($width, $height)->save($absolutePath . $resizedFilename);
-        $data['output_path'] = $dir . $resizedFilename;
+        $resizedFilename = $filename.'-resized.'.$extension;
+        $image->resize($width, $height)->save($absolutePath.$resizedFilename);
+        $data['output_path'] = $dir.$resizedFilename;
 
         $imageManipulation = ImageManipulation::create($data);
 
@@ -162,7 +162,7 @@ class ImageManipulationController extends Controller
         return [
             $newWidth,
             $newHeight,
-            $image
+            $image,
         ];
     }
 

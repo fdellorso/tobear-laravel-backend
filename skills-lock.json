@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "spatie-laravel-php": {
+      "source": "spatie/guidelines-skills",
+      "sourceType": "github",
+      "skillPath": "resources/boost/skills/spatie-laravel-php/SKILL.md",
+      "computedHash": "9c93332d7f84626db41dee9bf66534209250d99efd08295c8eac422e3a1af178"
+    },
+    "spatie-security": {
+      "source": "spatie/guidelines-skills",
+      "sourceType": "github",
+      "skillPath": "resources/boost/skills/spatie-security/SKILL.md",
+      "computedHash": "a16a04d6eed413355770fe1e81f6776058947ed4b9080c54a12d6b3a0bcc46d3"
+    }
+  }
+}
