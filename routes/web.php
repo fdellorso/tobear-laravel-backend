@@ -36,6 +36,7 @@ Route::get('/artisan/{name_of_command}', ExecuteArtisanCommandController::class)
 
 Route::get('/{any}', function () {
     $path = public_path('app/index.html');
+
     return file_exists($path)
         ? response(file_get_contents($path))
         : redirect(config('app.frontend_url'));
