@@ -20,15 +20,13 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::patch('/tasks/reorder', [TaskController::class, 'reorder']);
         Route::apiResource('tasks', TaskController::class);
 
-        Route::post('/myimages/{image}/delete', [ImageController::class, 'destroy']);
-
-        Route::apiResource('/myimages', ImageController::class)->only([
+        Route::apiResource('images', ImageController::class)->only([
             'index',
             'store',
             'destroy',
         ]);
 
-        Route::apiResource('album', AlbumController::class);
+        Route::apiResource('albums', AlbumController::class);
 
         Route::get('image', [ImageManipulationController::class, 'index']);
         Route::get('image/by-album/{album}', [ImageManipulationController::class, 'byAlbum']);
