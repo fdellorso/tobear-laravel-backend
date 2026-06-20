@@ -6,12 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreImageRequest;
 use App\Http\Resources\V1\ImageResource;
 use App\Models\Image;
+use App\Traits\OwnsModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ImageController extends Controller
 {
+    use OwnsModel;
+
     /**
      * Display a listing of the resource.
      */
@@ -51,7 +54,7 @@ class ImageController extends Controller
      */
     public function destroy(Request $request, Image $image)
     {
-        $this->authorizeImage($request, $image);
+        $this->authorizeOwnership($request, $image);
 
         $filePath = $image->path;
         if (Storage::disk('public_uploads')->exists($filePath)) {
@@ -68,12 +71,5 @@ class ImageController extends Controller
         $image->delete();
 
         return response(null, 204);
-    }
-
-    protected function authorizeImage(Request $request, Image $image): void
-    {
-        if ($request->user()->id != $image->user_id) {
-            abort(403, 'Unauthorized');
-        }
     }
 }

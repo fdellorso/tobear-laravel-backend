@@ -7,10 +7,13 @@ use App\Http\Requests\StoreAlbumRequest;
 use App\Http\Requests\UpdateAlbumRequest;
 use App\Http\Resources\V1\AlbumResource;
 use App\Models\Album;
+use App\Traits\OwnsModel;
 use Illuminate\Http\Request;
 
 class AlbumController extends Controller
 {
+    use OwnsModel;
+
     /**
      * Display a listing of the resource.
      */
@@ -36,9 +39,7 @@ class AlbumController extends Controller
      */
     public function show(Request $request, Album $album)
     {
-        if ($request->user()->id != $album->user_id) {
-            abort(403, 'Unauthorized');
-        }
+        $this->authorizeOwnership($request, $album);
 
         return new AlbumResource($album);
     }
@@ -48,9 +49,7 @@ class AlbumController extends Controller
      */
     public function update(UpdateAlbumRequest $request, Album $album)
     {
-        if ($request->user()->id != $album->user_id) {
-            abort(403, 'Unauthorized');
-        }
+        $this->authorizeOwnership($request, $album);
 
         $album->update($request->all());
 
@@ -62,9 +61,7 @@ class AlbumController extends Controller
      */
     public function destroy(Request $request, Album $album)
     {
-        if ($request->user()->id != $album->user_id) {
-            abort(403, 'Unauthorized');
-        }
+        $this->authorizeOwnership($request, $album);
 
         $album->delete();
 

@@ -7,10 +7,13 @@ use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\V1\TaskResource;
 use App\Models\Task;
+use App\Traits\OwnsModel;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
+    use OwnsModel;
+
     /**
      * Display a listing of the resource.
      */
@@ -75,7 +78,7 @@ class TaskController extends Controller
      */
     public function show(Request $request, Task $task)
     {
-        $this->authorizeTask($request, $task);
+        $this->authorizeOwnership($request, $task);
 
         return new TaskResource($task);
     }
@@ -85,9 +88,7 @@ class TaskController extends Controller
      */
     public function update(UpdateTaskRequest $request, Task $task)
     {
-        if ($request->user()->id != $task->user_id) {
-            abort(403, 'Unauthorized');
-        }
+        $this->authorizeOwnership($request, $task);
 
         $task->update($request->validated());
 
@@ -99,16 +100,9 @@ class TaskController extends Controller
      */
     public function destroy(Request $request, Task $task)
     {
-        $this->authorizeTask($request, $task);
+        $this->authorizeOwnership($request, $task);
         $task->delete();
 
         return response()->json(['message' => 'Task eliminato.'], 200);
-    }
-
-    protected function authorizeTask(Request $request, Task $task): void
-    {
-        if ($request->user()->id != $task->user_id) {
-            abort(403, 'Unauthorized');
-        }
     }
 }

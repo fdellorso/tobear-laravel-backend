@@ -7,6 +7,7 @@ use App\Http\Requests\ResizeImageRequest;
 use App\Http\Resources\V1\ImageManipulationResource;
 use App\Models\Album;
 use App\Models\ImageManipulation;
+use App\Traits\OwnsModel;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\File;
@@ -16,6 +17,8 @@ use Intervention\Image\Laravel\Facades\Image;
 
 class ImageManipulationController extends Controller
 {
+    use OwnsModel;
+
     /**
      * Display a listing of the resource.
      */
@@ -26,15 +29,9 @@ class ImageManipulationController extends Controller
 
     public function byAlbum(Request $request, Album $album)
     {
-        if ($request->user()->id != $album->user_id) {
-            abort(403, 'Unauthorized');
-        }
+        $this->authorizeOwnership($request, $album);
 
-        $where = [
-            'album_id' => $album->id,
-        ];
-
-        return ImageManipulationResource::collection(ImageManipulation::where($where)->paginate());
+        return ImageManipulationResource::collection(ImageManipulation::where('album_id', $album->id)->paginate());
     }
 
     /**
@@ -108,7 +105,7 @@ class ImageManipulationController extends Controller
      */
     public function show(Request $request, ImageManipulation $image)
     {
-        $this->authorizeTask($request, $image);
+        $this->authorizeOwnership($request, $image);
 
         return new ImageManipulationResource($image);
     }
@@ -118,7 +115,7 @@ class ImageManipulationController extends Controller
      */
     public function destroy(Request $request, ImageManipulation $image)
     {
-        $this->authorizeTask($request, $image);
+        $this->authorizeOwnership($request, $image);
 
         $filePath = $image->path;
         if (Storage::disk('public_uploads')->exists($filePath)) {
@@ -164,12 +161,5 @@ class ImageManipulationController extends Controller
             $newHeight,
             $image,
         ];
-    }
-
-    protected function authorizeTask(Request $request, ImageManipulation $image): void
-    {
-        if ($request->user()->id != $image->user_id) {
-            abort(403, 'Unauthorized');
-        }
     }
 }

@@ -35,7 +35,10 @@ Route::get('/artisan/{name_of_command}', ExecuteArtisanCommandController::class)
 // });
 
 Route::get('/{any}', function () {
-    return file_get_contents(public_path('app/index.html'));
+    $path = public_path('app/index.html');
+    return file_exists($path)
+        ? response(file_get_contents($path))
+        : redirect(config('app.frontend_url'));
 })->where('any', '^(?!api|assets|css|js).*$');
 
 // require __DIR__ . '/auth.php';
