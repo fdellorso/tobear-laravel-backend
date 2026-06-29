@@ -34,6 +34,7 @@ class TaskController extends Controller
         $data = [
             'title' => $all['title'],
             'description' => $all['description'],
+            'completed' => $all['completed'] ?? false,
             'order' => $maxOrder + 1,
             'user_id' => $request->user()->id,
         ];

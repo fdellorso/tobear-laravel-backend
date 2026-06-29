@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\V1\AlbumController;
 use App\Http\Controllers\V1\ImageController;
 use App\Http\Controllers\V1\ImageManipulationController;
@@ -34,6 +35,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::post('image/resize', [ImageManipulationController::class, 'resize']);
         Route::post('image/{image}/delete', [ImageManipulationController::class, 'destroy']);
     });
+});
+
+Route::prefix('v1')->group(function () {
+    Route::post('/contact', [ContactController::class, 'store'])
+        ->middleware('throttle:5,1');
 });
 
 require __DIR__.'/auth.php';
