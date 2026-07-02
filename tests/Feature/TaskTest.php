@@ -32,6 +32,25 @@ class TaskTest extends TestCase
         ]);
     }
 
+    public function test_store_accepts_completed_true_for_migration()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->postJson('/api/v1/tasks', [
+            'title' => 'Task già completato',
+            'completed' => true,
+        ]);
+
+        $response->assertStatus(201)
+            ->assertJsonPath('data.completed', true);
+
+        $this->assertDatabaseHas('tasks', [
+            'title' => 'Task già completato',
+            'completed' => true,
+            'user_id' => $user->id,
+        ]);
+    }
+
     public function test_store_validates_required_fields()
     {
         $user = User::factory()->create();

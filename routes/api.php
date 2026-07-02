@@ -4,6 +4,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\V1\AlbumController;
 use App\Http\Controllers\V1\ImageController;
 use App\Http\Controllers\V1\ImageManipulationController;
+use App\Http\Controllers\V1\StatsController;
 use App\Http\Controllers\V1\TaskController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::prefix('v1')->group(function () {
         Route::patch('/tasks/reorder', [TaskController::class, 'reorder']);
+        Route::get('/stats', [StatsController::class, 'index']);
         Route::apiResource('tasks', TaskController::class);
 
         Route::apiResource('images', ImageController::class)->only([
