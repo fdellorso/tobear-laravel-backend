@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\PasswordUpdateController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\TestCleanupController;
 use App\Http\Controllers\V1\AlbumController;
@@ -40,6 +41,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::post('image/resize', [ImageManipulationController::class, 'resize']);
         Route::post('image/{image}/delete', [ImageManipulationController::class, 'destroy']);
     });
+
+    Route::put('/password', [PasswordUpdateController::class, 'update']);
 });
 
 Route::prefix('v1')->group(function () {
