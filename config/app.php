@@ -56,6 +56,8 @@ return [
 
     'frontend_url' => env('FRONTEND_URL', 'http://localhost'),
 
+    'test_cleanup_token' => env('TEST_CLEANUP_TOKEN', ''),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

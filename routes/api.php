@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\TestCleanupController;
 use App\Http\Controllers\V1\AlbumController;
 use App\Http\Controllers\V1\ImageController;
 use App\Http\Controllers\V1\ImageManipulationController;
@@ -8,6 +9,8 @@ use App\Http\Controllers\V1\StatsController;
 use App\Http\Controllers\V1\TaskController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
+Route::post('/test/cleanup', [TestCleanupController::class, 'cleanup']);
 
 // Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 //     return $request->user();
