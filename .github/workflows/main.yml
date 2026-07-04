@@ -1,70 +1,80 @@
+name: Deploy Backend on Push
+
 on:
   push:
     branches:
       - main
 
-name: Deploy website on push
 jobs:
-  web-deploy:
+  deploy:
     name: Deploy
     runs-on: ubuntu-latest
+
     steps:
-      - name: Get latest code
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.3
+          php-version: '8.4'
 
       - name: Cache Composer packages
-        id: composer-cache
         uses: actions/cache@v4
         with:
           path: vendor
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-php-
 
-      # - name: Get Composer Cache Directory
-      #   id: composer-cache
-      #   run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-      #   uses: actions/cache@v4
-      #   with:
-      #     path: ${{ steps.composer-cache.outputs.dir }}
-      #     key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-      #     restore-keys: ${{ runner.os }}-composer-
-
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --optimize-autoloader --no-dev --no-interaction
-
-      # - name: Boot Laravel application
-      #   run: |
-      #     php -r "file_exists('.env') || copy('.env.production', '.env');"
-      #     php artisan key:generate
 
       - name: Copy .env.production to .env
         run: cp .env.production.x10 .env
 
-      - name: Inject sensitive DB credentials into .env
+      - name: Inject DB credentials
         run: |
           sed -i "s|DB_HOST=.*|DB_HOST=${{ secrets.DB_HOST_X10 }}|" .env
           sed -i "s|DB_DATABASE=.*|DB_DATABASE=${{ secrets.DB_DATABASE_X10 }}|" .env
           sed -i "s|DB_USERNAME=.*|DB_USERNAME=${{ secrets.DB_USERNAME_X10 }}|" .env
           sed -i "s|DB_PASSWORD=.*|DB_PASSWORD=${{ secrets.DB_PASSWORD_X10 }}|" .env
 
-      - name: Inject sensitive MAIL credentials into .env
+      - name: Inject MAIL credentials
         run: |
           sed -i "s|MAIL_HOST=.*|MAIL_HOST=${{ secrets.MAIL_HOST_X10 }}|" .env
           sed -i "s|MAIL_USERNAME=.*|MAIL_USERNAME=${{ secrets.MAIL_USERNAME_X10 }}|" .env
           sed -i "s|MAIL_PASSWORD=.*|MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD_X10 }}|" .env
           sed -i "s|MAIL_FROM_ADDRESS=.*|MAIL_FROM_ADDRESS=\"${{ secrets.MAIL_FROM_ADDRESS_X10 }}\"|" .env
 
-      - name: Sync files
+      - name: Generate app key if missing
+        run: |
+          if ! grep -q "^APP_KEY=base64:" .env; then
+            php artisan key:generate --force
+          fi
+
+      - name: Optimize Laravel
+        run: |
+          php artisan config:cache
+          php artisan route:cache
+          php artisan view:cache
+
+      - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          # server: ftpupload.net
           server: ${{ secrets.ftp_server_x10 }}
           username: ${{ secrets.ftp_username_x10 }}
           password: ${{ secrets.ftp_password_x10 }}
-          # server-dir: htdocs/
           server-dir: ${{ secrets.ftp_folder_x10 }}
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/tests/**
+
+      - name: Deploy summary
+        run: |
+          echo "### ✅ Backend deploy completato" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branch**: ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Autore**: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Ora**: $(date -u '+%Y-%m-%d %H:%M UTC')" >> $GITHUB_STEP_SUMMARY
