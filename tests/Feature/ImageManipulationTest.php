@@ -7,6 +7,7 @@ use App\Models\ImageManipulation;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class ImageManipulationTest extends TestCase
@@ -112,6 +113,7 @@ class ImageManipulationTest extends TestCase
 
     public function test_authenticated_user_can_resize_an_image()
     {
+        Storage::fake('public_uploads');
         $user = User::factory()->create();
         $file = UploadedFile::fake()->image('photo.jpg');
 
@@ -143,6 +145,7 @@ class ImageManipulationTest extends TestCase
 
     public function test_resize_with_other_users_album_returns_403()
     {
+        Storage::fake('public_uploads');
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
         $album = Album::factory()->create(['user_id' => $user2->id]);
@@ -159,6 +162,7 @@ class ImageManipulationTest extends TestCase
 
     public function test_resize_with_own_album_succeeds()
     {
+        Storage::fake('public_uploads');
         $user = User::factory()->create();
         $album = Album::factory()->create(['user_id' => $user->id]);
         $file = UploadedFile::fake()->image('photo.jpg');

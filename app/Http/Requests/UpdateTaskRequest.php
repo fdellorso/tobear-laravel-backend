@@ -28,7 +28,7 @@ class UpdateTaskRequest extends FormRequest
                 'max:255',
                 function ($attribute, $value, $fail) {
                     if (is_string($value) && trim($value) === '') {
-                        $fail('Il titolo non può essere vuoto o solo spazi.');
+                        $fail('The title cannot be empty or contain only spaces.');
                     }
                 },
             ],

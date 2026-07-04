@@ -60,7 +60,7 @@ class TaskController extends Controller
 
         if (! empty($invalidIds)) {
             return response()->json([
-                'message' => 'Alcune task non appartengono all’utente.',
+                'message' => 'Some tasks do not belong to the current user.',
             ], 403);
         }
 
@@ -70,7 +70,7 @@ class TaskController extends Controller
         }
 
         return response()->json([
-            'message' => 'Ordine aggiornato con successo.',
+            'message' => 'Order updated successfully.',
         ], 200);
     }
 
@@ -104,6 +104,6 @@ class TaskController extends Controller
         $this->authorizeOwnership($request, $task);
         $task->delete();
 
-        return response()->json(['message' => 'Task eliminato.'], 200);
+        return response()->json(['message' => 'Task deleted.'], 200);
     }
 }

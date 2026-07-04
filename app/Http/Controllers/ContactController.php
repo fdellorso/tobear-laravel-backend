@@ -21,7 +21,7 @@ class ContactController extends Controller
         }
 
         return response()->json([
-            'message' => 'Messaggio ricevuto. Ti risponderemo al più presto.',
+            'message' => 'Message received. We will get back to you as soon as possible.',
         ], 201);
     }
 }

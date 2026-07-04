@@ -170,7 +170,7 @@ class TaskTest extends TestCase
         $response = $this->actingAs($user)->deleteJson("/api/v1/tasks/{$task->id}");
 
         $response->assertStatus(200)
-            ->assertJsonPath('message', 'Task eliminato.');
+            ->assertJsonPath('message', 'Task deleted.');
 
         $this->assertModelMissing($task);
     }
@@ -202,7 +202,7 @@ class TaskTest extends TestCase
         ]);
 
         $response->assertStatus(200)
-            ->assertJsonPath('message', 'Ordine aggiornato con successo.');
+            ->assertJsonPath('message', 'Order updated successfully.');
 
         $this->assertDatabaseHas('tasks', ['id' => $task3->id, 'order' => 0]);
         $this->assertDatabaseHas('tasks', ['id' => $task2->id, 'order' => 1]);
@@ -220,7 +220,7 @@ class TaskTest extends TestCase
         ]);
 
         $response->assertStatus(403)
-            ->assertJsonPath('message', "Alcune task non appartengono all\u{2019}utente.");
+            ->assertJsonPath('message', 'Some tasks do not belong to the current user.');
     }
 
     public function test_reorder_validates_required_tasks_array()
