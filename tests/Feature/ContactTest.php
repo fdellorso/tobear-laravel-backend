@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Notifications\NewContactMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\NewContactMessage;
 use Tests\TestCase;
 
 class ContactTest extends TestCase
