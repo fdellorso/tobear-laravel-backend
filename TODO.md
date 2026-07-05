@@ -48,6 +48,22 @@
 - [ ] Endpoint POST /v1/tasks/batch-import: non urgente, N POST singole sufficienti ora
 - [ ] Localizzazione backend (lang/en, lang/it): da valutare quando si implementa i18n completo
 
+## Deploy x10hosting (fase test)
+
+### Pre-deploy backend
+- [ ] Creare DB MySQL su x10hosting (pannello cPanel)
+- [ ] Compilare .env.production.x10 con valori reali (APP_URL, FRONTEND_URL, CORS_ALLOWED_ORIGINS)
+- [ ] Configurare secrets GitHub: DB_HOST_X10, DB_DATABASE_X10, DB_USERNAME_X10, DB_PASSWORD_X10, MAIL_HOST_X10, MAIL_USERNAME_X10, MAIL_PASSWORD_X10, MAIL_FROM_ADDRESS_X10, ftp_server_x10, ftp_username_x10, ftp_password_x10, ftp_folder_x10
+- [ ] Verificare APP_ENV=production e APP_DEBUG=false in .env.production.x10
+- [ ] Push su main → GitHub Actions deploya automaticamente
+- [ ] Eseguire php artisan migrate --force manualmente via cPanel Terminal o Artisan endpoint
+
+### Post-deploy
+- [ ] Verificare GET /api/user restituisce 401 (non 500)
+- [ ] Verificare POST /api/v1/contact funziona
+- [ ] Verificare CORS non blocca richieste dal frontend
+- [ ] Test manuale login/logout da browser
+
 ## Note tecniche
 
 - Autenticazione: Sanctum SPA cookie-based, MAI Bearer token in localStorage

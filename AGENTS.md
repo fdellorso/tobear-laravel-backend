@@ -91,3 +91,20 @@ composer dev                # serve + queue + pail + vite insieme (richiede fron
 ## Fine sessione
 
 Prima di chiudere una sessione di lavoro significativa, esegui `/handoff` per scrivere il file di handoff in `handoffs/`.
+
+## Stack tecnologico (versioni al 2026-07-05)
+
+| Tecnologia | Versione |
+|---|---|
+| PHP | 8.4.1 |
+| Laravel | 12.15.0 |
+| Laravel Sanctum | 4.x |
+| Composer | latest |
+
+## Produzione (x10hosting — fase test)
+
+- Dominio backend: tobear.x10.mx/api (o sottodominio dedicato — da decidere)
+- Deploy: GitHub Actions → FTP (SamKirkland/FTP-Deploy-Action)
+- File env produzione: .env.production.x10 (nel repo, senza credenziali sensibili)
+- Credenziali sensibili: GitHub Secrets (DB_*, MAIL_*)
+- php artisan migrate --force: da eseguire manualmente dopo il primo deploy via cPanel
