@@ -13,10 +13,9 @@ class ExecuteArtisanCommandController extends Controller
         'config:cache',
         'route:cache',
         'view:cache',
-
-        'route:list',
-        'cache:clear',
         'config:clear',
+        'cache:clear',
+        'route:list',
         'migrate:status',
         'queue:failed',
     ];
