@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\Artisan;
 class ExecuteArtisanCommandController extends Controller
 {
     private const WHITELIST = [
+        'migrate',
+        'storage:link',
+        'config:cache',
+        'route:cache',
+        'view:cache',
+
         'route:list',
         'cache:clear',
         'config:clear',
@@ -27,7 +33,13 @@ class ExecuteArtisanCommandController extends Controller
             abort(404);
         }
 
-        Artisan::call($command);
+        $parameters = [];
+
+        if ($command === 'migrate') {
+            $parameters['--force'] = true;
+        }
+
+        Artisan::call($command, $parameters);
 
         return response(Artisan::output());
     }
