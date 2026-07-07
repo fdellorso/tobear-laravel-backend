@@ -29,6 +29,11 @@ jobs:
       - name: Install dependencies (with dev)
         run: composer install --prefer-dist --no-progress --no-interaction
 
+      - name: Prepare test environment
+        run: |
+          php -r "file_put_contents('.env', 'APP_KEY=' . trim(shell_exec('php artisan key:generate --show')) . PHP_EOL);"
+          echo "CONTACT_NOTIFICATION_EMAIL=test@example.com" >> .env
+
       - name: Check code style
         run: ./vendor/bin/pint --test
 
