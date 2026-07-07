@@ -18,5 +18,11 @@
       "command": ["npx", "intelephense", "--stdio"],
       "extensions": [".php"]
     }
+  },
+  "model": "opencode-go/deepseek-v4-flash",
+  "agent": {
+    "plan": {
+      "model": "opencode-go/glm-5.2"
+    }
   }
 }
