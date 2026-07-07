@@ -23,3 +23,20 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+# Security headers
+<IfModule mod_headers.c>
+    Header set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=HTTPS
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+# Manifest MIME type
+<IfModule mod_mime.c>
+    AddType application/manifest+json .webmanifest
+</IfModule>
+
+# Cookie domain override (x10hosting imposes .x10.mx server-side)
+<IfModule mod_php.c>
+    php_value session.cookie_domain tobear.x10.mx
+</IfModule>

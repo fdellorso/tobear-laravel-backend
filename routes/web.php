@@ -9,12 +9,13 @@ Route::get('/api/verify-email/{id}/{hash}', VerifyEmailController::class)
 
 require __DIR__.'/debug.php';
 
-Route::get('/{any}', function () {
+Route::fallback(function () {
     $path = public_path('app/index.html');
+    if (! file_exists($path)) {
+        return redirect(config('app.frontend_url'));
+    }
 
-    return file_exists($path)
-        ? response(file_get_contents($path))
-        : redirect(config('app.frontend_url'));
-})->where('any', '^(?!api|assets|css|js).*$');
+    return response(file_get_contents($path));
+});
 
 // require __DIR__ . '/auth.php';

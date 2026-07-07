@@ -10,8 +10,9 @@ class DebugTokenGuard
     public function handle(Request $request, Closure $next)
     {
         $token = $request->header('X-Debug-Token');
+        $expected = config('app.debug_token');
 
-        if ($token !== config('app.debug_token')) {
+        if (! $expected || $token !== $expected) {
             abort(404);
         }
 
