@@ -7,12 +7,8 @@ use Illuminate\Support\Facades\Artisan;
 
 class ExecuteArtisanCommandController extends Controller
 {
-    private const WHITELIST = [
-        'migrate',
+    private const READ_ONLY_COMMANDS = [
         'storage:link',
-        'config:cache',
-        'route:cache',
-        'view:cache',
         'config:clear',
         'cache:clear',
         'route:list',
@@ -22,23 +18,18 @@ class ExecuteArtisanCommandController extends Controller
 
     public function __invoke(Request $request, $command)
     {
-        $token = env('ARTISAN_DEBUG_TOKEN');
-
-        if ($token === null || $request->query('token') !== $token) {
+        if (! in_array($command, self::READ_ONLY_COMMANDS, true)) {
             abort(404);
         }
 
-        if (! in_array($command, self::WHITELIST, true)) {
-            abort(404);
-        }
+        Artisan::call($command);
 
-        $parameters = [];
+        return response(Artisan::output());
+    }
 
-        if ($command === 'migrate') {
-            $parameters['--force'] = true;
-        }
-
-        Artisan::call($command, $parameters);
+    public function migrate(Request $request)
+    {
+        Artisan::call('migrate', ['--force' => true]);
 
         return response(Artisan::output());
     }

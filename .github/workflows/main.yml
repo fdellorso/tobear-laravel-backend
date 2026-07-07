@@ -26,7 +26,16 @@ jobs:
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-php-
 
-      - name: Install dependencies
+      - name: Install dependencies (with dev)
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Check code style
+        run: ./vendor/bin/pint --test
+
+      - name: Run tests
+        run: php artisan test
+
+      - name: Install production dependencies
         run: composer install --prefer-dist --no-progress --optimize-autoloader --no-dev --no-interaction
 
       - name: Copy .env.production to .env
@@ -46,11 +55,14 @@ jobs:
           sed -i "s|MAIL_PASSWORD=.*|MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD_X10 }}|" .env
           sed -i "s|MAIL_FROM_ADDRESS=.*|MAIL_FROM_ADDRESS=\"${{ secrets.MAIL_FROM_ADDRESS_X10 }}\"|" .env
 
-      - name: Generate app key if missing
-        run: |
-          if ! grep -q "^APP_KEY=base64:" .env; then
-            php artisan key:generate --force
-          fi
+      - name: Inject APP_KEY from secret
+        run: sed -i "s|^APP_KEY=$|APP_KEY=${{ secrets.APP_KEY }}|" .env
+
+      - name: Inject ARTISAN_DEBUG_TOKEN from secret
+        run: sed -i "s|^ARTISAN_DEBUG_TOKEN=$|ARTISAN_DEBUG_TOKEN=${{ secrets.ARTISAN_DEBUG_TOKEN }}|" .env
+
+      - name: Inject CONTACT_NOTIFICATION_EMAIL from secret
+        run: sed -i "s|^CONTACT_NOTIFICATION_EMAIL=$|CONTACT_NOTIFICATION_EMAIL=${{ secrets.CONTACT_NOTIFICATION_EMAIL }}|" .env
 
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5

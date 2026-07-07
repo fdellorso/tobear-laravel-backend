@@ -23,35 +23,25 @@ Non saltare nessuno di questi 4 file per "velocità": è il pattern consolidato 
 
 Tutte le route autenticate vivono in `routes/api.php`, dentro:
 
-```php
-Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    Route::prefix('v1')->group(function () {
-        // qui le tue route
-    });
-});
-```
+
+
+
+
+
+
+
 
 Per risorse CRUD standard usa `Route::apiResource(...)`. Per azioni custom (tipo `reorder`), aggiungi una route esplicita PRIMA di `apiResource` se rischia di confliggere con `{resource}` wildcard (es. `/tasks/reorder` deve precedere `apiResource('tasks', ...)`).
 
 ## Ownership check
 
-Pattern attuale (non Policy, controllo manuale nel controller):
-
-```php
-protected function authorizeTask(Request $request, Task $task): void
-{
-    if ($request->user()->id != $task->user_id) {
-        abort(403, 'Unauthorized');
-    }
-}
-```
-
-Replica questo pattern per ogni nuova risorsa user-scoped. Chiamalo all'inizio di `show`, `update`, `destroy`.
+Ownership check tramite trait `App\Traits\OwnsModel::authorizeOwnership()`:
+Usa `$this->authorizeOwnership($request, $model)` all'inizio di show, update, destroy di ogni controller che usa il trait.
 
 ## Risposte
 
 - Successo con dati: ritorna sempre una Resource o una collection di Resource.
-- Successo senza dati (es. delete): `response()->json(['message' => '...'], 200)` con messaggio in italiano.
+- Successo senza dati (es. delete): `response()->json(['message' => '...'], 200)` con messaggio in inglese.
 - Errore di autorizzazione tra utenti: `response()->json(['message' => '...'], 403)`.
 
 ## Cosa controllare prima di aggiungere un campo

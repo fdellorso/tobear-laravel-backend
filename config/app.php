@@ -58,6 +58,12 @@ return [
 
     'test_cleanup_token' => env('TEST_CLEANUP_TOKEN', ''),
 
+    'debug_token' => env('ARTISAN_DEBUG_TOKEN', ''),
+
+    'debug_ip_allowlist' => env('DEBUG_IP_ALLOWLIST', []),
+
+    'contact_notification_email' => env('CONTACT_NOTIFICATION_EMAIL', ''),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

@@ -10,7 +10,6 @@ use App\Models\ImageManipulation;
 use App\Traits\OwnsModel;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Laravel\Facades\Image;
@@ -39,11 +38,9 @@ class ImageManipulationController extends Controller
      */
     public function resize(ResizeImageRequest $request)
     {
-        $all = $request->all();
+        $all = $request->validated();
 
-        /**
-         * @var UploadedFile|string $image
-         */
+        /** @var UploadedFile $image */
         $image = $all['image'];
         unset($all['image']);
         $data = [
@@ -61,29 +58,16 @@ class ImageManipulationController extends Controller
             $data['album_id'] = $all['album_id'];
         }
 
-        // $dir = 'assets/' . Str::random() . '/';
-        // $absolutePath = public_path($dir);
-        // File::makeDirectory($absolutePath);
-
         $dir = Str::random().'/';
         $absolutePath = Storage::disk('public_uploads')->path($dir);
         Storage::disk('public_uploads')->makeDirectory($dir);
 
-        if ($image instanceof UploadedFile) {
-            $data['name'] = $image->getClientOriginalName();
-            $filename = pathinfo($data['name'], PATHINFO_FILENAME);
-            $extension = $image->getClientOriginalExtension();
-            $originalPath = $absolutePath.$data['name'];
+        $data['name'] = $image->getClientOriginalName();
+        $filename = pathinfo($data['name'], PATHINFO_FILENAME);
+        $extension = $image->getClientOriginalExtension();
+        $originalPath = $absolutePath.$data['name'];
 
-            $image->move($absolutePath, $data['name']);
-        } else {
-            $data['name'] = pathinfo($image, PATHINFO_BASENAME);
-            $filename = pathinfo($image, PATHINFO_FILENAME);
-            $extension = pathinfo($image, PATHINFO_EXTENSION);
-            $originalPath = $absolutePath.$data['name'];
-
-            copy($image, $originalPath);
-        }
+        $image->move($absolutePath, $data['name']);
         $data['path'] = $dir.$data['name'];
 
         $w = $all['w'];

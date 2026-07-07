@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\UploadedFile;
 
 class ResizeImageRequest extends FormRequest
 {
@@ -22,25 +21,11 @@ class ResizeImageRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules = [
-            'image' => 'required',
+        return [
+            'image' => ['required', 'file', 'image', 'max:5120'],
             'w' => ['required', 'regex:/^\d+(\.\d+)?%?$/'],
             'h' => 'regex:/^\d+(\.\d+)?%?$/',
             'album_id' => 'exists:App\Models\Album,id',
         ];
-
-        $image = $this->all()['image'] ?? false;
-
-        if (! isset($rules['image']) || ! is_array($rules['image'])) {
-            $rules['image'] = [];
-        }
-
-        if (isset($image) && $image instanceof UploadedFile) {
-            $rules['image'][] = 'image';
-        } else {
-            $rules['image'][] = 'url';
-        }
-
-        return $rules;
     }
 }

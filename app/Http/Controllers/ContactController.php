@@ -13,7 +13,7 @@ class ContactController extends Controller
     {
         $contactMessage = ContactMessage::create($request->validated());
 
-        $adminEmail = env('CONTACT_NOTIFICATION_EMAIL');
+        $adminEmail = config('app.contact_notification_email');
 
         if ($adminEmail) {
             Notification::route('mail', $adminEmail)

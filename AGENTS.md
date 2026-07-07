@@ -1,7 +1,7 @@
 # toBear — Backend (Laravel)
 
 API REST per toBear, todo app in stile [Clear](https://www.useclear.com/) per iOS/web.
-Stack: Laravel 12, PHP 8.2, Sanctum (SPA cookie auth), MySQL/SQLite, Intervention/Image.
+Stack: Laravel 12, PHP ^8.2 (runtime 8.4.1), Sanctum (SPA cookie auth), MySQL/SQLite, Intervention/Image.
 
 ## Bootstrap di sessione
 
@@ -41,10 +41,10 @@ Pattern delle risorse: ogni entità (Task, Album, Image) segue Controller → Fo
 
 - **Autenticazione**: Sanctum SPA mode con cookie (`withCredentials` + XSRF token lato frontend), NON Bearer token. Tutte le route API protette stanno dentro `Route::middleware(['auth:sanctum', 'verified'])`.
 - **Versionamento API**: tutto sotto `Route::prefix('v1')`. Nuovi endpoint vanno in `app/Http/Controllers/V1/`.
-- **Ownership check manuale**: i controller verificano `$request->user()->id != $model->user_id` e fanno `abort(403)` esplicitamente — non si usa Policy/Gate per ora. Segui questo pattern per coerenza, a meno che non venga chiesto esplicitamente di migrare a Policies.
+- **Ownership check manuale**: tramite trait `App\Traits\OwnsModel::authorizeOwnership($request, $model)` (confronta `user_id` e fa `abort(403)`). Non si usa Policy/Gate per ora. Segui questo pattern, a meno che non venga chiesto esplicitamente di migrare a Policies.
 - **Ordinamento task**: campo `order` su `tasks`, gestito con un endpoint dedicato `PATCH /v1/tasks/reorder` che riceve un array di id in ordine e fa update posizionale. Non aggiungere logica di ordinamento altrove.
 - **Risposte**: sempre tramite Resource (`TaskResource::collection(...)` o `new TaskResource($task)`), mai array raw, per restare compatibili col frontend che si aspetta `response.data.data`.
-- **Lingua**: messaggi di errore/risposta utente-facing in italiano (es. "Task eliminato.", "Ordine aggiornato con successo."). Mantieni questa convenzione per nuovi endpoint a meno che non si stia esplicitamente internazionalizzando.
+- **Lingua**: messaggi di errore/risposta utente-facing in **inglese** (es. "Task deleted.", "Order updated successfully."). Le stringhe italiane sono state migrate a EN (handoff 2026-07-04).
 - **Validazione**: tramite FormRequest dedicate (`StoreTaskRequest`, `UpdateTaskRequest`), non `$request->validate()` inline nei controller nuovi — eccetto per endpoint molto piccoli come `reorder` dove la validazione è inline per semplicità.
 
 ## Workflow di modifica
@@ -80,13 +80,23 @@ composer dev                # serve + queue + pail + vite insieme (richiede fron
 - `task-resource-pattern` — come replicare il pattern Task/Album/Image per una nuova entità.
 - `spatie-laravel-php` (Spatie, installata via `npx skills add spatie/guidelines-skills`) — standard PSR-12 e convenzioni Laravel generiche (typed properties, constructor promotion, early returns, naming, validazione, Blade).
 - `spatie-security` (Spatie) — linee guida di sicurezza generiche (CSRF, hashing password, permessi DB, hardening server).
-- `laravel-simplifier` (Laravel ufficiale, installata via `npx skills add laravel/agent-skills`) — revisiona codice PHP/Laravel modificato di recente per chiarezza e coerenza, senza cambiarne il comportamento.
-
 **Come si combinano:**
 - `laravel-conventions` e `task-resource-pattern` restano la fonte di verità su COSA fare in questo specifico progetto (dove va un file, quale pattern di ownership usare, come è strutturata una risorsa).
 - `spatie-laravel-php` interviene sul COME scrivere il codice PHP/Laravel a livello di stile e qualità generale (PSR-12, naming, validazione) — usala in supporto, non in sostituzione delle convenzioni di progetto: se c'è conflitto (es. Spatie suggerisce un pattern diverso dal nostro ownership check manuale), vince la convenzione di progetto a meno che non si stia deliberatamente migrando verso quel pattern.
 - `spatie-security` è utile soprattutto quando si lavora su `sanctum-auth`, CORS, gestione cookie/sessioni o configurazione server.
-- `laravel-simplifier` va usata a fine sessione o su richiesta esplicita per una passata di pulizia sul codice appena scritto, non durante lo sviluppo attivo di una feature.
+## Route di debug
+
+Le route di debug sono consolidate in `routes/debug.php` e protette dal middleware `DebugTokenGuard`:
+- Il token va passato nell'header `X-Debug-Token` (mai in query string).
+- Il token è confrontato con `config('app.debug_token')` (env `ARTISAN_DEBUG_TOKEN`).
+- Su mismatch: `404` silente (non rivela l'esistenza della route).
+- Opzionale: IP allowlist via `config('app.debug_ip_allowlist')` (env `DEBUG_IP_ALLOWLIST`).
+
+Route disponibili:
+- `GET /serverphpinfo` — phpinfo()
+- `GET /laravelversion` — versione Laravel
+- `GET /artisan/{name}` — comandi read-only (route:list, migrate:status, queue:failed, config:clear, cache:clear, storage:link)
+- `POST /artisan/migrate` — esegue `migrate --force`
 
 ## Fine sessione
 
@@ -106,5 +116,5 @@ Prima di chiudere una sessione di lavoro significativa, esegui `/handoff` per sc
 - Dominio backend: tobear.x10.mx/api (o sottodominio dedicato — da decidere)
 - Deploy: GitHub Actions → FTP (SamKirkland/FTP-Deploy-Action)
 - File env produzione: .env.production.x10 (nel repo, senza credenziali sensibili)
-- Credenziali sensibili: GitHub Secrets (DB_*, MAIL_*)
+- Credenziali sensibili: GitHub Secrets (APP_KEY, DB_*, MAIL_*, ARTISAN_DEBUG_TOKEN, CONTACT_NOTIFICATION_EMAIL)
 - php artisan migrate --force: da eseguire manualmente dopo il primo deploy via cPanel

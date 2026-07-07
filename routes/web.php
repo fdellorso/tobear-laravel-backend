@@ -1,38 +1,13 @@
 <?php
 
 use App\Http\Controllers\Auth\VerifyEmailController;
-use App\Http\Controllers\ExecuteArtisanCommandController;
 use Illuminate\Support\Facades\Route;
-
-// use App\Http\Controllers\FileController;
-// use Illuminate\Support\Facades\Mail;
 
 Route::get('/api/verify-email/{id}/{hash}', VerifyEmailController::class)
     ->middleware(['web', 'auth', 'signed', 'throttle:6,1'])
     ->name('verification.verify');
 
-Route::get('/laravelversion', function () {
-    return ['Laravel' => app()->version()];
-})->name('laravelversion');
-
-Route::get('/serverphpinfo', function () {
-    phpinfo();
-})->name('serverphpinfo');
-
-Route::get('/artisan/{name_of_command}', ExecuteArtisanCommandController::class);
-
-// Route::get('/assets/{filename}', [FileController::class, 'show']);
-
-// Route::get('/test-email', function () {
-//     try {
-//         Mail::raw('Test SMTP x10', function ($msg) {
-//             $msg->to('fdellorso@ymail.com')->subject('Prova SMTP');
-//         });
-//         return 'Email inviata con successo!';
-//     } catch (\Exception $e) {
-//         return 'Errore nell\'invio dell\'email: '.$e->getMessage();
-//     }
-// });
+require __DIR__.'/debug.php';
 
 Route::get('/{any}', function () {
     $path = public_path('app/index.html');

@@ -12,6 +12,14 @@
 - [x] Storage::fake() nei test ImageManipulation
 - [x] Messaggi di errore tradotti in inglese
 - [x] 66 test PHPUnit (Task, Album, Image, ImageManipulation, Auth, Stats, Contact, PasswordUpdate)
+- [x] Route di debug consolidate in routes/debug.php con DebugTokenGuard (X-Debug-Token header, 404 silente)
+- [x] SSRF rimosso da ImageManipulationController::resize (solo UploadedFile, no URL string)
+- [x] Upload size limit max:5120 su StoreImageRequest e ResizeImageRequest
+- [x] Credenziali leakate rimosse da .env tracciati (APP_KEY, DB_PASSWORD, ARTISAN_DEBUG_TOKEN) — placeholder vuoti
+- [x] env() sostituito con config() in ContactController e ExecuteArtisanCommandController
+- [x] SESSION_DOMAIN=tobear.x10.mx, SESSION_SAME_SITE=lax in .env.production.x10
+- [x] trustProxies(at: '*') in bootstrap/app.php
+- [x] CI/CD: composer test + pint --test prima del deploy; injection APP_KEY/ARTISAN_DEBUG_TOKEN/CONTACT_NOTIFICATION_EMAIL da secrets
 
 ## Da fare — pre-deploy
 
@@ -53,7 +61,7 @@
 ### Pre-deploy backend
 - [ ] Creare DB MySQL su x10hosting (pannello cPanel)
 - [ ] Compilare .env.production.x10 con valori reali (APP_URL, FRONTEND_URL, CORS_ALLOWED_ORIGINS)
-- [ ] Configurare secrets GitHub: DB_HOST_X10, DB_DATABASE_X10, DB_USERNAME_X10, DB_PASSWORD_X10, MAIL_HOST_X10, MAIL_USERNAME_X10, MAIL_PASSWORD_X10, MAIL_FROM_ADDRESS_X10, ftp_server_x10, ftp_username_x10, ftp_password_x10, ftp_folder_x10
+- [ ] Configurare secrets GitHub: APP_KEY, ARTISAN_DEBUG_TOKEN, CONTACT_NOTIFICATION_EMAIL, DB_HOST_X10, DB_DATABASE_X10, DB_USERNAME_X10, DB_PASSWORD_X10, MAIL_HOST_X10, MAIL_USERNAME_X10, MAIL_PASSWORD_X10, MAIL_FROM_ADDRESS_X10, ftp_server_x10, ftp_username_x10, ftp_password_x10, ftp_folder_x10
 - [ ] Verificare APP_ENV=production e APP_DEBUG=false in .env.production.x10
 - [ ] Push su main → GitHub Actions deploya automaticamente
 - [ ] Eseguire php artisan migrate --force manualmente via cPanel Terminal o Artisan endpoint
