@@ -98,6 +98,11 @@ Route disponibili:
 - `GET /artisan/{name}` — comandi read-only (route:list, migrate:status, queue:failed, config:clear, cache:clear, storage:link)
 - `POST /artisan/migrate` — esegue `migrate --force`
 
+## Documenti
+
+- Nuovi documenti: docs/superpowers/{plans,specs,reports,handoffs}/ con nomi YYYY-MM-DD-*, tutto committato
+  (i report trasversali be+fe vanno nella root; plans/specs seguono le skill superpowers).
+
 ## Fine sessione
 
 Prima di chiudere una sessione di lavoro significativa, esegui `/handoff` per scrivere il file di handoff in `docs/superpowers/handoffs/`.
