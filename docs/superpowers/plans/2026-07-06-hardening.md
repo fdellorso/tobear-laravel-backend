@@ -183,4 +183,4 @@
 
 ---
 
-**Fine piano backend.** Il piano frontend è in `frontend/docs/plans/PLAN-hardening-2026-07-06.md`.
+**Fine piano backend.** Il piano frontend è in `frontend/docs/superpowers/plans/2026-07-06-hardening.md`.

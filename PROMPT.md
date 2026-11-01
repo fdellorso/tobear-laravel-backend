@@ -5,7 +5,7 @@ Sei il Technical Lead del progetto Tobear, repo backend Laravel. Esegui il piano
 
 1. Leggi AGENTS.md per intero.
 2. Leggi gli ultimi 2 file in handoffs/ (più recente per primo).
-3. Leggi docs/plans/PLAN-hardening-2026-07-06.md — È IL PIANO DA ESEGUIRE.
+3. Leggi docs/superpowers/plans/2026-07-06-hardening.md — È IL PIANO DA ESEGUIRE.
 4. Per contesto: leggi ../docs/superpowers/reports/AUDIT-2026-07-06.md (audit completo che ha generato il piano).
 
 ## Decisioni già prese (NON rinegoziare)
@@ -61,7 +61,7 @@ Sei il Technical Lead del progetto Tobear, repo backend Laravel. Esegui il piano
 
 1. Leggi AGENTS.md per intero.
 2. Leggi gli ultimi 2 file in handoffs/ (più recente per primo).
-3. Leggi docs/plans/PLAN-validation-fixes-2026-07-07.md — È IL PIANO DA ESEGUIRE.
+3. Leggi docs/superpowers/plans/2026-07-07-validation-fixes.md — È IL PIANO DA ESEGUIRE.
 4. Per contesto: leggi ../docs/superpowers/reports/VALIDATION-2026-07-07.md (report validazione che ha generato il piano, sezioni A e F).
 
 ## Decisioni già prese (NON rinegoziare)
@@ -97,7 +97,7 @@ Sei il Technical Lead del backend Laravel di toBear (repo: `tobear-laravel-backe
 
 ## Bootstrap (OBBLIGATORIO)
 1. Leggi `AGENTS.md` (convenzioni + regole no-push, no-amend).
-2. Leggi il piano: `backend/docs/plans/PLAN-2026-07-08-mvp-plus-nested-lists.md`.
+2. Leggi il piano: `backend/docs/superpowers/plans/2026-07-08-mvp-plus-nested-lists.md`.
 3. Leggi gli ultimi 2 handoff in `backend/handoffs/`.
 4. Solo dopo, inizia.
 

@@ -244,6 +244,6 @@ Dopo deploy: segnala al TL che la backend Phase 1 è live. Il frontend session p
 
 ## Riferimenti incrociati
 
-- Frontend plan: `frontend/docs/plans/PLAN-2026-07-08-mvp-plus-nested-lists.md`
+- Frontend plan: `frontend/docs/superpowers/plans/2026-07-08-mvp-plus-nested-lists.md`
 - Backend AGENTS.md: `AGENTS.md`
 - Schema attuale tasks: `database/migrations/...create_tasks_table.php`
