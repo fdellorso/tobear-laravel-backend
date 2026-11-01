@@ -2,14 +2,14 @@
 
 **Repo**: `backend/`
 **Scope**: fix critici e medi emersi dalla validazione post-deploy su x10hosting
-**Base**: `VALIDATION-2026-07-07.md` (root `todos_app/`)
+**Base**: `../docs/superpowers/reports/VALIDATION-2026-07-07.md`
 **Architettura di deploy**: same-host, catch-all serve SPA da `public/app/`
 
 ---
 
 ## 1. Commit fix DebugTokenGuard fail-closed
 
-**Riferimenti**: A3, A5, A6, A7, A8 (VALIDATION-2026-07-07.md)
+**Riferimenti**: A3, A5, A6, A7, A8 (../docs/superpowers/reports/VALIDATION-2026-07-07.md)
 **Cosa fare**:
 
 Il fix è già applicato localmente in `app/Http/Middleware/DebugTokenGuard.php` (sessione validazione 2026-07-07). Il middleware ora è fail-closed:
@@ -61,7 +61,7 @@ Verificare che il fix sia presente localmente, poi includerlo nel commit.
 
 ## 3. Security headers via .htaccess
 
-**Riferimenti**: F2, F3 (VALIDATION-2026-07-07.md)
+**Riferimenti**: F2, F3 (../docs/superpowers/reports/VALIDATION-2026-07-07.md)
 **Cosa fare**:
 
 1. Crea/aggiorna `public/.htaccess` con:
@@ -85,7 +85,7 @@ Verificare che il fix sia presente localmente, poi includerlo nel commit.
 
 ## 4. Investigazione cookie domain
 
-**Riferimenti**: F5 (VALIDATION-2026-07-07.md)
+**Riferimenti**: F5 (../docs/superpowers/reports/VALIDATION-2026-07-07.md)
 **Cosa fare**:
 
 1. Il `.env.production.x10` ha `SESSION_DOMAIN=tobear.x10.mx`, ma il cookie di sessione in produzione ha `domain=.x10.mx`.

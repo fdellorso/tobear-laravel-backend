@@ -6,7 +6,7 @@ Sei il Technical Lead del progetto Tobear, repo backend Laravel. Esegui il piano
 1. Leggi AGENTS.md per intero.
 2. Leggi gli ultimi 2 file in handoffs/ (più recente per primo).
 3. Leggi docs/plans/PLAN-hardening-2026-07-06.md — È IL PIANO DA ESEGUIRE.
-4. Per contesto: leggi ../AUDIT-2026-07-06.md (audit completo che ha generato il piano).
+4. Per contesto: leggi ../docs/superpowers/reports/AUDIT-2026-07-06.md (audit completo che ha generato il piano).
 
 ## Decisioni già prese (NON rinegoziare)
 
@@ -54,7 +54,7 @@ Sei il Technical Lead del progetto Tobear, repo backend Laravel. Esegui il piano
 ## Prerequisiti (devono essere già fatti)
 
 - Backend hardenato, committato, pushato, deployato su x10hosting (PROMPT 1).
-- Validazione post-deploy eseguita (PROMPT 3, root todos_app/) → report in ../VALIDATION-2026-07-07.md.
+- Validazione post-deploy eseguita (PROMPT 3, root) → report in ../docs/superpowers/reports/VALIDATION-2026-07-07.md.
 - 3 FAIL critici/alti trovati nel backend: catch-all route, security headers, cookie domain.
 
 ## Bootstrap (OBBLIGATORIO, in ordine)
@@ -62,7 +62,7 @@ Sei il Technical Lead del progetto Tobear, repo backend Laravel. Esegui il piano
 1. Leggi AGENTS.md per intero.
 2. Leggi gli ultimi 2 file in handoffs/ (più recente per primo).
 3. Leggi docs/plans/PLAN-validation-fixes-2026-07-07.md — È IL PIANO DA ESEGUIRE.
-4. Per contesto: leggi ../VALIDATION-2026-07-07.md (report validazione che ha generato il piano, sezioni A e F).
+4. Per contesto: leggi ../docs/superpowers/reports/VALIDATION-2026-07-07.md (report validazione che ha generato il piano, sezioni A e F).
 
 ## Decisioni già prese (NON rinegoziare)
 
