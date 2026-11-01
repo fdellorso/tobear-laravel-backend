@@ -43,7 +43,7 @@ git checkout -b feat/nested-lists
 
 ### 0.2 Piano d'attacco concordato
 - Backend prima, frontend dopo
-- No coordinamento live con frontend session — ogni repo ha il suo piano e PROMPT.md
+- No coordinamento live con frontend session — ogni repo ha il suo piano e comando /mvp-plus
 - Fine Phase 1 = segnalare al TL "Backend Phase 1 completata. Commit pronti. Coordinate deploy."
 
 ---
