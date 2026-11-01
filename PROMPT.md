@@ -4,7 +4,7 @@ Sei il Technical Lead del progetto Tobear, repo backend Laravel. Esegui il piano
 ## Bootstrap (OBBLIGATORIO, in ordine)
 
 1. Leggi AGENTS.md per intero.
-2. Leggi gli ultimi 2 file in handoffs/ (più recente per primo).
+2. Leggi gli ultimi 2 file in docs/superpowers/handoffs/ (più recente per primo).
 3. Leggi docs/superpowers/plans/2026-07-06-hardening.md — È IL PIANO DA ESEGUIRE.
 4. Per contesto: leggi ../docs/superpowers/reports/AUDIT-2026-07-06.md (audit completo che ha generato il piano).
 
@@ -31,7 +31,7 @@ Esegui le 7 sezioni del piano in ordine. Per ogni sezione:
 
 Alla fine:
 
-1. Scrivi handoff in handoffs/2026-07-06-hardening-sicurezza-pre-deploy.md (formato /handoff: Cosa è stato fatto / Stato attuale / Decisioni prese / Prossimi passi / Note per il frontend / File rilevanti).
+1. Scrivi handoff in docs/superpowers/handoffs/2026-07-06-hardening-sicurezza-pre-deploy.md (formato /handoff: Cosa è stato fatto / Stato attuale / Decisioni prese / Prossimi passi / Note per il frontend / File rilevanti).
 2. Esegui ./vendor/bin/pint per il code style.
 3. Mostrami git status + git diff --stat per revisione.
 4. Commit con messaggio Conventional Commits EN: "feat: harden security for pre-production deploy" + body con bullet dei fix.
@@ -60,7 +60,7 @@ Sei il Technical Lead del progetto Tobear, repo backend Laravel. Esegui il piano
 ## Bootstrap (OBBLIGATORIO, in ordine)
 
 1. Leggi AGENTS.md per intero.
-2. Leggi gli ultimi 2 file in handoffs/ (più recente per primo).
+2. Leggi gli ultimi 2 file in docs/superpowers/handoffs/ (più recente per primo).
 3. Leggi docs/superpowers/plans/2026-07-07-validation-fixes.md — È IL PIANO DA ESEGUIRE.
 4. Per contesto: leggi ../docs/superpowers/reports/VALIDATION-2026-07-07.md (report validazione che ha generato il piano, sezioni A e F).
 
@@ -81,7 +81,7 @@ Esegui le 5 sezioni del piano in ordine. Per ogni sezione:
 
 Alla fine:
 
-1. Scrivi handoff in handoffs/2026-07-07-fix-post-validazione.md (formato /handoff: Cosa è stato fatto / Stato attuale / Decisioni prese / Prossimi passi / Note per il frontend / File rilevanti).
+1. Scrivi handoff in docs/superpowers/handoffs/2026-07-07-fix-post-validazione.md (formato /handoff: Cosa è stato fatto / Stato attuale / Decisioni prese / Prossimi passi / Note per il frontend / File rilevanti).
 2. Esegui ./vendor/bin/pint per il code style.
 3. Mostrami git status + git diff --stat per revisione.
 4. Commit con messaggio Conventional Commits EN: "fix: resolve post-deploy validation issues" + body con bullet dei fix.
@@ -98,7 +98,7 @@ Sei il Technical Lead del backend Laravel di toBear (repo: `tobear-laravel-backe
 ## Bootstrap (OBBLIGATORIO)
 1. Leggi `AGENTS.md` (convenzioni + regole no-push, no-amend).
 2. Leggi il piano: `backend/docs/superpowers/plans/2026-07-08-mvp-plus-nested-lists.md`.
-3. Leggi gli ultimi 2 handoff in `backend/handoffs/`.
+3. Leggi gli ultimi 2 handoff in `backend/docs/superpowers/handoffs/`.
 4. Solo dopo, inizia.
 
 ## Task — Implementa Phase 1 del piano (Liste Annidate — backend)

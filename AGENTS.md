@@ -8,7 +8,7 @@ Stack: Laravel 12, PHP ^8.2 (runtime 8.4.1), Sanctum (SPA cookie auth), MySQL/SQ
 All'inizio di OGNI sessione, in quest'ordine:
 
 1. Leggi questo AGENTS.md per intero.
-2. Leggi gli ultimi 2 file in `handoffs/` (ordinati per data, il più recente per primo).
+2. Leggi gli ultimi 2 file in `docs/superpowers/handoffs/` (ordinati per data, il più recente per primo).
 3. Solo dopo, chiedi cosa si vuole fare oggi — non assumere il task dal solo handoff.
 
 Se l'utente dice "leggi gli handoff" o "riprendi da dove eravamo", esegui i punti 1-2 senza chiedere conferma.
@@ -100,7 +100,7 @@ Route disponibili:
 
 ## Fine sessione
 
-Prima di chiudere una sessione di lavoro significativa, esegui `/handoff` per scrivere il file di handoff in `handoffs/`.
+Prima di chiudere una sessione di lavoro significativa, esegui `/handoff` per scrivere il file di handoff in `docs/superpowers/handoffs/`.
 
 ## Stack tecnologico (versioni al 2026-07-05)
 

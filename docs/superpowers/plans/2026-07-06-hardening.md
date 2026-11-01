@@ -158,7 +158,7 @@
 
 ## 7. Handoff + commit
 
-1. Scrivi `backend/handoffs/2026-07-06-hardening-sicurezza-pre-deploy.md`
+1. Scrivi `backend/docs/superpowers/handoffs/2026-07-06-hardening-sicurezza-pre-deploy.md`
    - Usa il formato del comando `/handoff`
    - Cosa è stato fatto
    - Stato attuale

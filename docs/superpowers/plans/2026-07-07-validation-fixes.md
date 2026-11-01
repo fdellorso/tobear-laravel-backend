@@ -100,7 +100,7 @@ Verificare che il fix sia presente localmente, poi includerlo nel commit.
 
 ## 5. Handoff + commit
 
-1. Scrivi `backend/handoffs/2026-07-07-fix-post-validazione.md`
+1. Scrivi `backend/docs/superpowers/handoffs/2026-07-07-fix-post-validazione.md`
    - Formato comando `/handoff`
    - Cosa è stato fatto (3 fix backend + 1 investigatione)
    - Stato attuale (test passano, aggiornare after verify)
