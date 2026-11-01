@@ -54,3 +54,6 @@ Sei il Technical Lead del backend Laravel di toBear (repo: `tobear-laravel-backe
 Termina alla fine di Phase 1. Fai un commit su `feat/nested-lists` (non pushare). Comunicami in chat: "Backend Phase 1 completata su branch feat/nested-lists, commit pronti. Non pushati — coordinate deploy quando frontend è pronto."
 
 Mantieni il branch locale. Push e merge su main solo quando coordinato col frontend.
+
+## TODO
+Spunta in `TODO.md` le voci completate in questa sessione; se trovi voci stale o contraddittorie col piano, segnalale in chat invece di cancellarle.
